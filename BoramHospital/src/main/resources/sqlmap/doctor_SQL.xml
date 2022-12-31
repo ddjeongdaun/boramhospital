@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="doctor">
+
+	<select id="login" parameterType="hashMap" resultType="com.proj.doctor.DoctorDTO">
+	<![CDATA[
+		SELECT * FROM doctor WHERE uId=#{uId} AND uPw=#{uPw}
+		]]>
+	</select>
+
+	<select id="checkDoctor" parameterType="String" resultType="int">
+	<![CDATA[
+		SELECT count(*) FROM doctor WHERE uId=#{uId}
+		]]>
+	</select>
+
+	<select id="selectById" parameterType="String" resultType="com.proj.doctor.DoctorDTO">
+	<![CDATA[
+		SELECT * FROM doctor WHERE uId=#{uId}
+		]]>
+	</select>
+	
+	<select id="getDeptName" parameterType="int" resultType="com.proj.doctor.DepartmentDTO">
+	<![CDATA[
+		SELECT deptName FROM department WHERE deptno=#{deptno}
+		]]>
+	</select>
+	
+	
+	<delete id="delete_doctor" parameterType="String">
+		<![CDATA[
+			delete from doctor where uId = #{uId}
+		]]>
+	</delete>
+	
+	<select id="myReservation" parameterType="String" resultType="com.proj.doctor.ReservationDTO">
+		<![CDATA[
+		SELECT m.uName, r.* 
+		FROM member m, reservation r
+		WHERE m.uId=r.memId and
+		r.docId=#{docId}
+		]]>
+	</select>
+		
+	<select id="reservationDetail" parameterType="int" resultType="com.proj.doctor.ReservationDTO">
+		<![CDATA[
+		select m.uName, r.* 
+		from member m, reservation r 
+		where r.memId=m.uId and r.no=1;
+		]]>
+	</select>
+	
+	<update id="docCheckUpdate" parameterType="hashMap">
+		update reservation
+		<if test="docCheck==true">
+			set docCheck = false
+		</if>
+		<if test="docCheck==false">
+			set docCheck = true
+		</if>
+		where no = #{no}
+	</update>
+	
+	<update id="updateDoctor" parameterType="hashMap">
+		update doctor
+		set uEmail=#{uEmail}, uPw=#{uPw}, uName=#{uName}
+		where uId=#{uId}
+	</update>
+	
+	<select id="memberDetail" parameterType="String" resultType="com.proj.community.MemberVO">
+		<![CDATA[
+			select * from member where uId=#{memId}
+		]]>
+	</select>
+</mapper>
