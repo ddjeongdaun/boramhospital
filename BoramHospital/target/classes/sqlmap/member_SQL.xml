@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+<select id="login" parameterType="hashMap" resultType="com.proj.community.MemberVO">
+	<![CDATA[
+	SELECT * FROM member WHERE uId=#{uId} AND uPw=#{uPw}
+	]]>
+</select>
+
+<insert id="insert" parameterType="com.proj.community.MemberVO" useGeneratedKeys="true" keyProperty="num">
+	<![CDATA[
+		insert into member 
+		(uId, uPw, uName, uEmail, gender, uBirthday,uZipcode, uAddr, uHobby, uJob, joinTM, uAuth)
+		values 
+		(#{uId}, #{uPw}, #{uName}, #{uEmail}, #{gender}, #{uBirthday}, #{uZipcode}, #{uAddr}, #{uHobby}, #{uJob}, now(), 2)
+	]]>
+</insert>
+
+<select id="checkId" parameterType="String" resultType="com.proj.community.MemberVO">
+	<![CDATA[
+		select * from member where uId = #{uId}
+	]]>
+</select>
+
+<update id="updateMember" parameterType="com.proj.community.MemberVO">
+	<![CDATA[
+		update member
+		set uPw=#{uPw}, uName=#{uName}, uEmail=#{uEmail}, gender=#{gender}, uBirthday=#{uBirthday}, 
+			uZipcode=#{uZipcode}, uAddr=#{uAddr}, uHobby=#{uHobby}, uJob=#{uJob}
+		where uId = #{uId}
+	]]>
+</update>
+
+<delete id="delete_member" parameterType="String">
+	<![CDATA[
+		delete from member where uId = #{uId}
+	]]>
+</delete>
+
+<select id="member_select" parameterType="String" resultType="com.proj.community.MemberVO">
+	<![CDATA[
+		select * from member where uId = #{uId}
+	]]>
+</select>
+
+<select id="selectZipcode" parameterType="String" resultType="com.proj.community.ZipcodeVO">
+	<![CDATA[
+		select * from tblZipcode 
+		where area3 like CONCAT('%',#{area3},'%' )
+	]]>
+</select>
+
+<select id="reservationList" parameterType="String" resultType="com.proj.doctor.ReservationDTO">
+	<![CDATA[
+		select r.*, d.uName
+		from reservation r, doctor d
+		where r.docId=d.uId
+		and r.memId=#{uId}
+	]]>
+</select>
+
+<select id="nameBydocId" parameterType="String" resultType="com.proj.doctor.DoctorDTO">
+	<![CDATA[
+		select uName from doctor
+		where uId=#{docId}
+	]]>
+</select>
+
+<delete id="deleteReservation" parameterType="int">
+	<![CDATA[
+		delete from reservation
+		where no=#{no}
+	]]>
+</delete>
+
+<insert id="reservation" parameterType="hashMap">
+	<![CDATA[
+		insert into reservation(memId,docId,reservation,regdate,docCheck)
+		values(#{memId},#{docId},#{reservation},now(),false)
+	]]>
+</insert>
+
+<select id="searchDoctor" parameterType="hashMap" resultType="com.proj.doctor.DoctorDTO">
+	<![CDATA[
+		select * from doctor
+		where uName=#{uName}, deptno=#{deptno}
+	]]>
+</select>
+
+<select id="doctorByDeptno" parameterType="String" resultType="com.proj.doctor.DoctorDTO">
+	<![CDATA[
+		select * from doctor
+		where deptno=#{deptno}
+	]]>
+</select>
+
+<!-- 게시판 sql -->
+
+<!-- 총 게시물 수 -->
+<select id="totalBoard" resultType="int" parameterType="hashMap">
+	select count(*) from tblBoard
+	<if test="keyWord!=null">
+		<if test="keyField=='subject'">
+		where subject like CONCAT('%',#{keyWord},'%' )
+		</if>
+		<if test="keyField=='uName'">
+		where uName like CONCAT('%',#{keyWord},'%' )
+		</if>
+		<if test="keyField=='content'">
+		where content like CONCAT('%',#{keyWord},'%' )
+		</if>
+	</if>
+</select>
+
+<!-- 게시물 목록(페이징) -->
+<select id="selectBoardList" resultType="hashMap" parameterType="hashMap">
+	select * from tblBoard
+	<if test="keyWord!=null">
+		<if test="keyField=='subject'">
+		where subject like CONCAT('%',#{keyWord},'%' )
+		</if>
+		<if test="keyField=='uName'">
+		where uName like CONCAT('%',#{keyWord},'%' )
+		</if>
+		<if test="keyField=='content'">
+		where content like CONCAT('%',#{keyWord},'%' )
+		</if>
+	</if>
+	order by ref desc, pos
+       LIMIT #{pageStart}, #{perPageNum}
+</select>
+
+<select id="selectBoard" parameterType="String" resultType="com.proj.board.BoardDTO">
+	<![CDATA[
+	select * from tblBoard
+	where num=#{num}
+	]]>
+</select>
+
+<insert id="write" parameterType="com.proj.board.BoardDTO">
+	<![CDATA[
+		insert into tblBoard(uId, uName, subject, content, ref, pos, depth, regTM, ip, readCnt, fileName, fileSize)
+		values (#{uId}, #{uName}, #{subject}, #{content}, #{ref}, 0, 0, now(), #{ip}, 0, #{fileName}, #{fileSize})
+	]]>
+</insert>
+
+<insert id="insertReply" parameterType="com.proj.board.BoardDTO">
+	<![CDATA[
+		insert into tblBoard(uId, uName, subject, content, ref, pos, depth, regTM, ip, readCnt, fileName, fileSize)
+		values (#{uId}, #{uName}, #{subject}, #{content}, #{ref}, #{pos}, #{depth}, now(), #{ip}, 0, #{fileName}, #{fileSize})
+	]]>
+</insert>
+
+<update id="updateReply" parameterType="com.proj.board.BoardDTO">
+	<![CDATA[
+		update tblBoard
+		set depth=depth+1
+		where ref=#{ref} and depth>=#{depth}
+	]]>
+</update>
+
+<select id="maxDepth" parameterType="int" resultType="int">
+	<![CDATA[
+		select max(pos) from tblBoard
+		where ref=#{ref}
+	]]>
+</select>
+
+<update id="updateReadCnt" parameterType="String">
+	<![CDATA[
+		update tblBoard 
+		set readCnt = readCnt+1 where num= #{num}
+	]]>
+</update>
+
+<select id="selectByNum" parameterType="String" resultType="com.proj.board.BoardDTO">
+	<![CDATA[
+		select * from tblBoard
+		where num=#{num}
+	]]>
+</select>
+
+<select id="selectByUid" parameterType="String" resultType="String">
+	<![CDATA[
+		select uName from tblBoard
+		where uId=#{uId}
+	]]>
+</select>
+
+<delete id="deleteBoard" parameterType="String">
+	<![CDATA[
+		delete from tblBoard
+		where num=#{num}
+	]]>
+</delete>
+
+<select id="checkBoard" parameterType="String" resultType="int">
+	<![CDATA[
+		select ref from tblBoard
+		where num=#{num}
+	]]>
+</select>
+
+<select id="checkBoard2" parameterType="String" resultType="int">
+	<![CDATA[
+		select depth from tblBoard
+		where num=#{num}
+	]]>
+</select>
+
+<select id="checkReboard" parameterType="hashMap" resultType="int">
+	<![CDATA[
+		select count(*) from tblBoard
+		where ref=#{ref} and depth>#{depth}
+	]]>
+</select>
+
+<update id="delBoard" parameterType="String">
+	<![CDATA[
+		update tblBoard 
+		set subject="삭제된 게시물입니다.", content="삭제된 게시물입니다.", uName=" ",
+		fileName=" ", checkDel = true
+		where num= #{num}
+	]]>
+</update>
+
+<update id="updateBoard" parameterType="com.proj.board.BoardDTO">
+	<![CDATA[
+		update tblBoard 
+		set subject=#{subject}, content=#{content}
+		where num= #{num}
+	]]>
+</update>
+
+<select id="maxNum" resultType="int">
+	<![CDATA[
+		select max(num) from tblBoard
+	]]>
+</select>
+
+<!-- 검색/총개수 -->
+<select id="totalSearch" resultType="int" parameterType="hashMap">
+	select count(*) from tblBoard
+	
+	<if test="keyWord!=null">
+		where #{keyField} like CONCAT('%',#{keyWord},'%' )
+	</if>
+</select>
+
+<!-- 검색/리스트 -->
+<select id="search" resultType="com.proj.board.BoardDTO">
+	select * from tblBoard
+		<if test="keyWord!=null">
+			where #{keyField} like CONCAT('%',#{keyWord},'%' )
+		</if>
+	order by ref desc, pos asc
+	LIMIT #{pageStart}, #{perPageNum}
+</select>
+
+
+</mapper>

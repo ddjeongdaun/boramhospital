@@ -41,8 +41,7 @@
    		// 정규표현식 시작
    		let regExp = /[^a-z|A-Z|0-9]/g;
    		let rExpRes = regExp.test(uId);   // 정규표현식에 부합하면 true
-   														   // 정규표현식에 부합하면지 않으면 false
-   		//alert("rExpRes : " + rExpRes);	
+   										// 정규표현식에 부합하면지 않으면 false
    		// 정규표현식 끝		
    		if (uId == "") {    // 전체 공백 체크
    			alert("아이디를 입력해주세요");
@@ -67,10 +66,6 @@
    			let prop = "width="+ popWidth +", height="+ popHeight;
    				  prop += ", left=" + leftPos + ", top=" + topPos; 
    			window.open(url, nickName, prop);
-   			// 사용 예 : 팝업창의 가로폭 200px, 높이 100px 이며
-   			//         화면의 왼쪽에서 300px, 위쪽에서 400px 에 위치한 곳에 팝업창 출력
-   			//         =>  window.open("파일명", "닉네임", 
-   			//         "width=200, height=100, left=300, top=400")          
    		}
    	});
    	
@@ -98,11 +93,6 @@
    		}
    		
    	});
-   	
-   	
-   	// 이름 유효성 검사(정규표현식) : 공백처리, 한글, 영어대소, 숫자, 마침표, 밑줄, 대시기호(-)
-   	// 그냥 한글만으로 실습해봄. => 위의 모든 정규표현식을 적용해봄 
-   	// 한글 정규표현식 =>  /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/
    	
    	// Email 유효성 검사 => 공백검사만!
    	$("#emailAuthBtn").click(function(){

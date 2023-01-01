@@ -23,38 +23,30 @@ $(function(){
    	// 아이디 중복체크 팝업 
    	$("#regFrm button#idChkBtn").click(function(){
    		
-   		let uId = $("#uId").val().trim();    // <input id="uId">의 값 반환
+   		let uId = $("#uId").val().trim();
    		//alert("uId.length : " + uId.length);
    		$("#uId").val(uId);
    		
    		// 정규표현식 시작
    		let regExp = /[^a-z|A-Z|0-9]/g;
    		let rExpRes = regExp.test(uId);   // 정규표현식에 부합하면 true
-   														   // 정규표현식에 부합하면지 않으면 false
+   											// 정규표현식에 부합하면지 않으면 false
    		//alert("rExpRes : " + rExpRes);	
    		// 정규표현식 끝		
    		
    		
    		if (uId == "") {    // 전체 공백 체크
-   			
    			alert("아이디를 입력해주세요");
    			$("#uId").focus();
-   			
    		} else if (uId.length < 3) {    // 글자수 체크
-   		
    			alert("아이디는 최소 3글자 이상입니다.");
    			$("#uId").focus();
-   			
    		} else if (rExpRes) {    // 정규표현식 체크
-   		
    			alert("영어대/소문자, 숫자 조합만 가능합니다.");
    			$("#uId").focus();
-   			
    		} else {			
-   			
    			let url = "/member/idCheck?uId=" + uId;
    			let nickName = "idChkPop";
-   	
    			let w = screen.width;     // 1920
    			let popWidth = 480;
    			let leftPos = (w - popWidth) / 2; // left Position 팝업창 왼쪽 시작위치
@@ -62,17 +54,13 @@ $(function(){
    			let h = screen.height;    // 1080
    			let popHeight = 320;
    			let topPos = (h - popHeight) / 2; 		
-   			
    	
    			let prop = "width="+ popWidth +", height="+ popHeight;
    				  prop += ", left=" + leftPos + ", top=" + topPos; 
    			window.open(url, nickName, prop);
-   			// 사용 예 : 팝업창의 가로폭 200px, 높이 100px 이며
-   			//         화면의 왼쪽에서 300px, 위쪽에서 400px 에 위치한 곳에 팝업창 출력
-   			//         =>  window.open("파일명", "닉네임", 
-   			//         "width=200, height=100, left=300, top=400")          
+   			// 팝업창의 가로폭 200px, 높이 100px 이며
+   			// 화면의 왼쪽에서 300px, 위쪽에서 400px 에 위치한 곳에 팝업창 출력
    		}
-   		
    		
    	});
    	
@@ -83,7 +71,6 @@ $(function(){
 		window.close();
 		opener.regFrm.uId.focus();
    	});
-   	
    	
    	// 비밀번호 표시하기 
    	$("#wrap #regFrmTbl input#pwView").click(function(){
@@ -96,7 +83,7 @@ $(function(){
    		}
    	});
    	
-   	// 비밀번호 / 비밀번호 확인 동일성 검사   +  유효성검사(정규표현식)
+   	// 비밀번호 / 비밀번호 확인 동일성 검사 +유효성검사(정규표현식)
    	$("#uPw_Re").keyup(function(){ 
    		let uPw = $("#uPw").val();
    		let uPw_Re = $("#uPw_Re").val();
@@ -110,14 +97,10 @@ $(function(){
    		
    	});
    	
-   	
    	// 이름 유효성 검사(정규표현식) : 공백처리, 한글, 영어대소, 숫자, 마침표, 밑줄, 대시기호(-)
-   	// 그냥 한글만으로 실습해봄. => 위의 모든 정규표현식을 적용해봄 
-   	// 한글 정규표현식 =>  /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/
-   	
    	// Email 유효성 검사 => 공백검사만!
+   	
    	$("#emailAuthBtn").click(function(){
-   		
    		let uEmail_01 = $("#uEmail_01").val().trim();
    		let uEmail_02 = $("#uEmail_02").val().trim();
    		
@@ -152,7 +135,6 @@ $(function(){
    		
    	});
    	
-   	
    	// 우편번호 팝업창에서 주소 검색
    	$("#addrSearchBtn").click(function(){
    		let area3 = $("#area3").val().trim();
@@ -163,7 +145,6 @@ $(function(){
    			$("#zipFrm").submit();
    		}
    	});
-   	
    	
    	// 우편번호 팝업창에서 주소 선택
    	$("table#zipResTbl td").click(function(){
@@ -248,13 +229,8 @@ $(function(){
    });
    
    
-$(function(){
-	
-	///////////////////////////////////////////////////////////////////////////
 	/*///////   회원가입(/member/joinAgreement.jsp) 동의 시작   //////*/
-	///////////////////////////////////////////////////////////////////////////
-	
-	/* 회원가입 동의 체크박스 전체 선택 시작   /member/joinAgreement.jsp 	 */
+$(function(){
 		
 	// 정방향 전체 체크 적용		
 	$(".joinAgree input#chkAll").click(function(){
@@ -290,7 +266,7 @@ $(function(){
 		$(".joinAgree input#chkAll").prop("checked", boolChk);
 	});
 	
-	/* 회원가입 동의 체크박스 전체 선택 끝  	/member/joinAgreement.jsp 	 */
+	/* 회원가입 동의 체크박스 전체 선택 끝 */
 	
 	
 	/* 이용약관 form 실행 시작 */
@@ -314,16 +290,8 @@ $(function(){
 	});
 	
 	/* 이용약관 form 실행 끝 */
-		
-	///////////////////////////////////////////////////////////////////////////
-	/*//////////   회원가입(/member/joinAgreement.jsp) 동의 끝   /////////*/
-	///////////////////////////////////////////////////////////////////////////
 	
-	
-	
-	///////////////////////////////////////////////////////////////////////////
 	/*//////////   회원가입 입력(/member/member.jsp)  시작   /////////*/
-	///////////////////////////////////////////////////////////////////////////
 	
 	// 필수입력 영역 배경색 적용
 	$("#regFrmTbl td.req").parent("tr").css({
@@ -410,9 +378,6 @@ $(function(){
 		// opener객체는 팝업창을 실행한 부모페이지를 지칭함.
 	});
 	
-	
-	
-	
 	// 비밀번호 표시하기 
 	$("#wrap #regFrmTbl input#pwView").click(function(){
 		let chkTF = $(this).prop("checked");     ;     // YN => Yes or No,   TF => True or False
@@ -438,13 +403,6 @@ $(function(){
 		
 	});
 	
-	
-	
-	// 이름 유효성 검사(정규표현식) : 공백처리, 한글, 영어대소, 숫자, 마침표, 밑줄, 대시기호(-)
-	// 그냥 한글만으로 실습해봄. => 위의 모든 정규표현식을 적용해봄 
-	// 한글 정규표현식 =>  /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/
-	
-	
 	// Email 유효성 검사 => 공백검사만!
 	$("#emailAuthBtn").click(function(){
 		
@@ -463,7 +421,6 @@ $(function(){
 		
 		
 	});
-	
 	
 	// 우편번호 찾기 팝업 
 	$("#regFrm button#findZipBtn").click(function(){
@@ -508,11 +465,6 @@ $(function(){
 		window.close();
 	});
 
-	///////////////////////////////////////////////////////////////////////////
-	/*//////////   회원가입 입력(/member/member.jsp)  끝   /////////*/
-	///////////////////////////////////////////////////////////////////////////
-	
-	
 });
 
 

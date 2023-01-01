@@ -4,7 +4,6 @@
 
 $(function(){
 	
-	
 	/* 로그인 버튼 전송 실행 */	
 	$("#loginBtn").click(function(){		
 		fnLoginSbm();		
@@ -44,7 +43,6 @@ $(function(){
 			$("#loginFrm").attr("action", "/member/loginProc");
 			$("#loginFrm").submit();
 		}
-		
 		
 	}
 	

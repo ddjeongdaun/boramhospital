@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admin">
+
+	<!-- 관리자 체크 -->
+	<select id="checkAdmin" parameterType="String" resultType="int">
+		<![CDATA[
+		select uAuth from member where uId=#{uId}
+		]]>
+	</select>
+	
+	<select id="checkMember" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(*) from member where uId=#{uId}
+		]]>
+	</select>
+	
+	<select id="countMember" resultType="int">
+		<![CDATA[
+			select count(*) from member
+		]]>
+	</select>
+	
+	<!-- 전체 멤버 조회 -->
+	<select id="allMember" resultType="hashMap" parameterType="hashMap">
+		SELECT * FROM MEMBER
+		ORDER BY NUM DESC
+		LIMIT #{pageStart},#{perPageNum}
+	</select>
+	
+	<select id="countDoctor" resultType="int">
+		<![CDATA[
+			select count(*) from doctor
+		]]>
+	</select>
+	
+	<!-- 전체 의료진 조회 -->
+	<select id="allDoctor" resultType="hashMap" parameterType="hashMap">
+		SELECT * FROM doctor
+		ORDER BY NUM DESC
+		LIMIT #{pageStart},#{perPageNum}
+	</select>
+	
+	<!-- 회원 디테일 -->
+	<select id="detailMember" parameterType="int" resultType="com.proj.community.MemberVO" >
+		<![CDATA[
+			SELECT * FROM MEMBER
+			WHERE NUM = #{NUM}
+		]]>
+	</select>
+	
+	<!-- 의료진 디테일 -->
+	<select id="detailDoctor" parameterType="int" resultType="com.proj.doctor.DoctorDTO" >
+		<![CDATA[
+			SELECT * FROM doctor
+			WHERE NUM = #{NUM}
+		]]>
+	</select>
+	
+	<!--  게시물 리스트 조회 -->
+	<select id="allBoard" parameterType="String" resultType="com.proj.board.BoardDTO">
+		<![CDATA[
+			select * from tblBoard
+			order by num desc
+		]]>
+	</select>
+	
+	<!-- 전체 진료예약 내역 -->
+	<select id="allReservation" parameterType="hashMap" resultType="hashMap">
+		select * from reservation
+		order by no desc
+		LIMIT #{pageStart},#{perPageNum}
+	</select>
+	
+	<!-- 전체 진료예약 수 -->
+	<select id="countReservation" resultType="int">
+		<![CDATA[
+			select count(*) from reservation
+		]]>
+	</select>
+	
+	<!-- 의료진 삭제 -->
+	<delete id="deleteDoctor" parameterType="String">
+		<![CDATA[
+		delete from doctor
+		where uId=#{uId}
+		]]>
+	</delete>
+	
+	<!-- 회원 삭제 -->
+	<delete id="deleteMember" parameterType="String">
+		<![CDATA[
+		delete from member
+		where uId=#{uId}
+		]]>
+	</delete>
+	
+	<!-- 회원 비밀번호 초기화 -->
+	<select id="resetPw" parameterType="hashMap" resultType="int" >
+		<![CDATA[
+			UPDATE MEMBER
+			SET uPw = #{uPw}
+			WHERE NUM = #{num}
+		]]>
+	</select>
+	
+	<!-- 의료진 비밀번호 초기화 -->
+	<select id="resetDoctorPw" parameterType="hashMap" resultType="int" >
+		<![CDATA[
+			UPDATE doctor
+			SET uPw = #{uPw}
+			WHERE NUM = #{num}
+		]]>
+	</select>
+	
+	<!-- 의료진 계정 등록 -->
+	<insert id="insertDoctor" parameterType="hashMap">
+		<![CDATA[
+			insert into doctor(uId,uPw,uName,uEmail,position,deptno,joinTM)
+			values(#{uId},#{uPw},#{uName},#{uEmail},#{position},#{deptno},now());
+		]]>
+	</insert>
+	
+	<!-- 의료진 아이디 중복확인 -->
+	<select id="doctorIdCheck" parameterType="String" resultType="com.proj.doctor.DoctorDTO">
+		<![CDATA[
+			select * from doctor
+			where uId = #{uId}
+		]]>
+	</select>
+	
+	<!-- 진료과 번호 중복확인 -->
+	<select id="deptnoCheck" parameterType="int" resultType="com.proj.doctor.DepartmentDTO">
+		<![CDATA[
+			select * from department
+			where deptno=#{deptno}
+		]]>
+	</select>
+	
+	<select id="allDepartment" resultType="com.proj.doctor.DepartmentDTO">
+		<![CDATA[
+			select * from department
+		]]>
+	</select>
+	
+	<insert id="insertDept" parameterType="com.proj.doctor.DepartmentDTO">
+		<![CDATA[
+			insert into department(deptno, deptName)
+			values(#{deptno},#{deptName})
+		]]>
+	</insert>
+	
+	<!-- 의료진 삭제 -->
+	<delete id="deleteDepartment" parameterType="String">
+		<![CDATA[
+		delete from department
+		where deptno=#{deptno}
+		]]>
+	</delete>
+	
+	<!-- 사용중인 진료과인지 확인 -->
+	<select id="checkDept" resultType="int">
+		<![CDATA[
+			select count(*)
+			from doctor d, department dd
+			where d.deptno= dd.deptno
+			and d.deptno=#{deptno}
+		]]>
+	</select>
+	
+	<select id="reservationByNo" parameterType="String" resultType="com.proj.doctor.ReservationDTO">
+		<![CDATA[
+			select * from reservation
+			where no = #{no}
+		]]>
+	</select>
+	
+	<delete id="deleteReservation" parameterType="String">
+		<![CDATA[
+			delete from reservation
+			where no = #{no}
+		]]>
+	</delete>
+	
+</mapper>

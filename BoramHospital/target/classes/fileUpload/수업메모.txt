@@ -1,0 +1,469 @@
+프로그램
+쓰레드
+- 쓰레드 구현 방법
+1.thread 클래스 상속받기
+2.runable 인터페이스 구현
+
+한번사용한 쓰레드는 재사용 할 수없다
+한번의 start만 가능
+run 메서드는 단순히 메서드 호출, 쓰레드생성x
+start() : 쓰레드 생성 및 run 호출
+
+join() < - 해당 쓰레드가 다 종료될때 까지 기다린다
+
+- 쓰레드의 동기화
+(syncronized)
+한번에 하나의 객체에 접근할수 있도록 lock
+
+*다형성
+부모에 자식을 넣는다/자식의 오버라이딩 메서드 호출한다
+
+java파일은 navigator에서 이동한다
+(플젝 익스플로어에서 이동하면 옛날 경로로 인식함)
+
+import 정리 : ctrl+shift+O 
+22.10.12
+
+jquery
+
+1. 태그사이에 글자 : html or text
+id = # 태그 사용
+
+selector
+
+- input [type=button]
+
+체크상태변경
+
+-prop 사용
+1. all 체크 타입 만들기 - change 메서드
+
+
+10.25
+
+return false 차이
+
+자바스크립트 : 이벤트진행을 더 이상 막는다 (=prevent Default)
+submit을 막는다.
+
+jquery : 이벤트와 이벤트 버블링도 막는다
+
+
+[페이지 이동]
+html = a태그 <a></a>
+<intput type="button" onclick = "location.href='list.jsp'">
+jquery = 
+jsp = 
+
+
+static 변수
+클래스차원에서 딱하나만 생성되고 모든 객체가 공유한다
+ctrl shift o -> import 정리
+
+request ->
+include 액션 태그, forward 액션 태그를 사용하면 request 내장  객
+체를 공유하게 되어서 같은 request 영역이 됨
+
+
+ forward, include로 링크연결해야 객체를 가지고온다
+	-> a태그 같은 redirect에서는 공유X
+
+22.10.31 jsp top.jsp
+herbmall을 절대참조 : include되는 페이지는 절대참조
+href="<%=request.getContextPath()%>/css/mainstyle.css"/>
+
+새창열기
+window.opener(부모)
+-> 자식값을 부모값으로 옮기기
+opener.document. form name . name .value=
+window.open (자식)
+ex) 
+$('#btnChkId').click(function(){
+open('checkUserid.jsp','chk','width=400, height=300, left=0, top=0, location=yes, resizable=yes');
+});
+
+jquery - checked
+1. 체크되었는지 확인
+$('#아이디').is(':checked')
+
+change
+
+prop
+
+2. 체크박스(1개) value가 없을때
+- 체크되었으면 on 아니면 null이 넘어온다.
+
+유효성검사 - 문자열 검사
+function validate_phone(hp){
+	var pattern = new RegExp(/^[0-9]*$/g);
+	return pattern.test(hp);	//정규식과 일치하면 true
+	/* 0에서 9사이의 숫자로 시작하거나 끝나야한다는 의미 (^는 시작, $는 끝을 의미)
+	닫기 대괄호(]) 뒤의 * 기호는 0번이상 반복 */
+}
+
+번호(no) parameter로 페이지 이동하기
+('checkUserid.jsp?no='+no)
+
+- 아이디 중복검사
+action = 자기자신.jsp 로 넘겨서 결과 뿌린다.
+
+탈퇴한회원과 id가 unique 가 걸려있으면
+outdate 와 상관없이 무조건 중복x
+탈퇴한 회원아이디도 사용할 수 없다.
+
+-
+jsp - DAO (data access object) *db작업과 관련된 crud만 들어가야함
+jsp - Service - DAO
+
+jsp와 DAO는 멀리떨어질수록 좋다
+Service : DB작업 이외의 메서드만 들어감. 중간연결기능
+
+
+우편번호 찾기 후 opener에 가져오기 function
+function setZipcode(zipcode, address){
+	$(opener.document).find('#zipcode').val(zipcode);
+	$(opener.document).find('input[name=address]').val(address);
+	self.close();
+}
+
+오라클
+String sql="select * from zipcode"
+	+ " where dong like '%' || ? || '%'";
+
+
+쿠키 : 웹브라우저(클라이언트)에 저장
+세션 : 웹서버에 저장
+
+memberService
+- static
+- final
+
+절대path
+<%=request.getContextPath() %>/folder/name.jsp
+
+jquery - db에서 읽어온 처리 x 사소한처리만 한다
+pw 같은것 db로 끌어오면 소스보기에 pw가 노출됨
+
+
+[절대참조/상대참조] : /로 시작하면 절대참조
+-절대참조에서 context path를 자동추가해주는 경우
+1. web.xml 일 경우
+2. include / RequestDispatcher
+3. forward
+**절대참조시 컨텍스트 경로가 자동으로 포함됨
+
+ex)"/tips/messageView.jsp" 으로 작성해도
+context path를 앞에서 적은것으로 자동추가
+
+*MVC패턴(=모델2)
+사용자로부터 컨트롤러가 요청을 받아서
+모델에 의뢰하여 결과를 받아 뷰로 전달, 
+뷰가 사용자에게 보여준다.
+
+servlet
+서버에서 웹페이지 등을 동적으로 생성하거나 데이터 처리를 수행하기 위해 자바(Java)로 작성된 프로그램
+
+(POJO:PlainOld Java Object) 
+- 평이한 자바클래스 , implement/extend 하지않는것
+
+new - 다이나믹웹프로젝트
+webapp-web-inf-lib에 
+ojdbc8.jar/ servlet-api.jar 넣기
+
+*servlet mapping
+= /travel.do를 호출하면 TravelController가 처리
+
+(web-inf/web.xml)
+</welcome-file-list> 아래 작성
+  <servlet>
+  	<servlet-name>travelController</servlet-name>
+  	<servlet-class>com.tips.controller.TravelController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>travelController</servlet-name>
+  	<url-pattern>/travel.do</url-pattern>
+  </servlet-mapping>
+
+//사용자의 URI 읽어오기 => /mymvc/tips/book.do
+		String uri=request.getRequestURI();
+
+forward - 주소창 안바뀜
+redirect - 주소창 바뀜
+
+
+모델2 웹프로젝트 처음설정 1번만 하는것
+- 디스패처서블릿, Controller, web.xml
+
+*jsp는 포워드할때만 보여야함
+
+server.xml
+컨텍스트는 자동생성되므로 직접 작성XX
+resource 부분만 작성할것
+
+
+[JSTL]
+
+fn-function
+c-core
+fmt-formet
+
+1. jar 파일을 lib에 넣는다
+2. 태그 지시자를 넣는다. taglib
+
+- c태그 set - 변수선언 (<c:set> = setAttribute)
+- import 태그 = inlcude 액션태그와 같다 (같은변수 ok)
+- <c:url value=''> 컨택스트패스 자동 
+
+-JSTL은 jsp와 동일하게 서버에서 가장 먼저 실행된다.
+
+-html, js 파일에서는 jstl 불가함
+
+-배열/컬렉션의 요소를 불러올때
+** int length(item) : item 이 배열이나 컬렉션이면 요소의 개수를, 
+문자열 이면 문자의 개수를 리턴
+ex) list(컬렉션).size() => list.length 로 사용한다.
+
+[JSTL 포멧 종류]
+1. 넘버/Date : value, pattern
+ex ) <fmt:formatNumber value="" pattern="" />
+
+2. url : value // 컨텍스트 path 생략가능
+ex) <a href=" <c:url value='/pd/pdWrite.do' /> ">
+
+3. parameter 읽어오기 
+-변수 : no => ${param.no} 또는 ${param[no]}
+
+4. for each : var, begin, end
+<c:forEach var="" begin="" end="">
+
+
+
+[spring] 설정
+
+1. 자바프로젝트 생성
+(자르파일이 예전파일이라 jre-use and execution environment JRE를
+javaSE-1.8으로 설정하고 생성한다)
+
+-프로젝트 build path - configure build path- libraries - 
+modulepath-add External JARs.. 클릭 후 아래 폴더 파일 apply
+
+spring\1109\spring3.1_mybatis_lib\java_lib
+
+2. src폴더에 applicationContext 넣기 (34page)
+-주입은 설정화일(applicationContext)에서 처리한다.
+
+3.와이어링 (applicationContext.xml)
+ex)
+
+<bean name="articleService2"
+		class="sprindi.ArticleServiceImpl2">
+		<constructor-arg> //생성자 argument
+	--생성자 매개변수에 reference-aricleDao 를 넣어달라는 의미
+			<ref bean="articleDao" />
+		</constructor-arg>
+	</bean>
+
+		--setter를 사용할때--(property사용)
+	<--줄이기 전-->
+	<bean name="articleService3"
+		class="sprindi.ArticleServiceImpl3">
+		<property name="articleDao" ref="myArticleDao"></property>
+	</bean>		//name=setter의 이름
+	<--줄인 후-->
+	<bean name="articleService3"
+		class="sprindi.ArticleServiceImpl3" 
+		p:articleDao-ref="myArticleDao">
+	</bean>	//p:property
+
+	<bean name="articleDao" class="sprindi.MySqlArticleDAO">
+	</bean>
+
+
+Bean -> 스프링의 가장 기본적인 설정단위/객체를 생성해달라는 의미
+
+[어노테이션]
+클래스나 메서드 등의 선언시에 @를 사용하는 것
+
+스프링은 자동으로 해주는 것이 많지만
+model에 저장해서 사용할때는 클래스명으로 사용
+-내가 지정한 변수명은 사용x (스프링2강 46p)
+
+@requestParam 어노테이션을 이용한 파라미터 매핑 시,
+주의할것
+
+1.int에는 null값을 넣을 수 없으므로 defaultValue속성을 지정
+2.어노테이션 적용 파라미터는 기본이 필수파라미터
+(반드시 값을 넣어야함) 필수가 아니면 required=false 지정
+
+76p
+servletContext - > 웹페이지를 의미함
+ApplicationContext 와 다름 
+
+servletContext안에 applicationContext가 여러개 들어간것
+
+WEB-INF속에 jsp(view)를 넣으면 무조건 에러남
+원래 jsp는 에러가 나지않지만 jsp는 화면에보이면안되므로
+일부러 web-inf에 넣음
+
+
+
+2022-11-17
+
+톰캣  : admin / 1234
+
+이클립스 필수 설정-Preferences-인코딩(Encoding) : UTF-8
+
+[Spring 작업준비]
+1.JDK	(필수)
+2.Tomcat (Resin, Apache, ...)
+3.Eclipse (VSC, IntelliJ, ...)
+4.STS	(Spring Tool Suite)
+5.DBMS	(MySQL, Oracle + 자체 DB)
+
+[jsp]
+지시자
+1.페이지
+2.태그
+3.
+
+
+11/18
+
+[Spring / myBatis]
+
+Spring : Java Web Framework
+myBatis : Java Database Framework
+
+라이브러리 : 응용프로그램 제작 활용도구
+ => 특정프로그램 or 파일 + 메뉴얼
+API : Application Programming Interface
+     :	응용프로그램	    대면
+	     Java 	       |      DataBase
+    		   이기종
+Framework
+
+시스템 (운영하는) 프로그램 : 운영체제(OS)
+
+응용프로그램(Application, 어플리케이션)
+- JavaScript (html, css를도와주는 응용프로그램)
+
+-JQuery : 자바스크립트 라이브러리
+sysdm.cpl ,3 : 시스템 속성
+
+[Spring 환경구성]
+
+1.JDK : openJDK 17 GA
+2.Eclipse : 2022-06 (4.24.0) Eclipse EE(Enterprise Edition)
+3.STS : Spring Tools 3(Standalone Edition 3.9.14.RELEASE)
+	Spring Tools 3 Add-On for Spring Tools 4.39.22.RELEASE
+4.Tomcat : Apache-tomcat-9.0.69 (실서버 port 8081/admin,1234)
+5.Datebase(MYSQL)
+
+
+다운로드 순서
+1.JDK => OpenJDK 다운로드 받은 파일의 압축풀고 원하는 폴더에 복붙하는것이 곧 설치
+	Classpath - jsp 라이브러리 활용을 위한 설정
+	+ 환경변수 설정(JAVA_HOME, path, ClassPath)
+	*path경로는 삭제하지 않도록 주의
+2.Eclipse
+	*이클립스zip파일이름이 길고, 하위파일이 많으면 이름이 길어서 압출풀때에러남
+3.STS
+4.Tomcat
+5.Datebase(MYSQL)
+
+
+*설치역순 (상관없음)
+삭제(tools프로그램 : 원인모를 에러많으니 삭제 ex)알툴즈)
+1.DBMS(Database Management System, 데이터베이스 관리 시스템)
+	MySQL=>Window키+R => appwiz.cpl 프로그램제거창에서 MySQL삭제
+2.Tomcat
+	(1)톰캣 서버 실행 중지 (Window+R =>services.msc)
+	(2)이클립스 하단 Servers탭에 있는 가상서버를 우클릭후 delete
+	(3)이클립스에서 가상서버가 연동되어있다면 해당 가상서버를 중지하고 항목제거
+	프로젝트 익스플로어(Project Explorer)영역에서 Server제거
+	(실제 폴더 제거를 위한 체크박스 선택)
+	(4)이클립스 환경설정에서 속성 제거되었는지 점검
+	Window-Preferences-Server-Runtime Environments-Apache Tomcat 제거
+	(5)톰캣 실서버 폴더를 제거하기 위해 프로그램 추가/제거 창에서 톰캣 제거
+	Window+R => appwiz.cpl => 해당 아파치서버 제거
+3.이클립스
+	-인스톨러(Installer)를 사용한 이클립스는 프로그램 제거 또는 변경에서 제거
+	-zip 형식의 이클립스는 해당폴더 제거/workspace도 제거하면 됨
+	* 압축파일(zip)형식의 이클립스는 여러개를 설치할 수 있음
+	그러므로, 다른 이클립스를 제거할 필요 없음
+4.JDK
+	(1)Oracle JDK 프로그램 제거 또는 변경에서 삭제
+	(2)OpenJDK는 설치된 폴더를 삭제하는 것이 곧 프로그램 제거
+
+	+feat. 환경변수 설정 점검
+		환경변수 => Window키+R => sysdm.cpl ,3-고급-환경변수
+		-시스템변수영역
+		*사용자변수는 될때도있고 안될때도있음
+		변수이름 : JAVA_HOME, ClassPath, Path 설정 변경
+			주의! JAVA_HOME, ClassPath 삭제 해도 됨
+			Path는 편집들어가서 해당항목만 삭제
+
+
+스프링 
+
+설치 - 버전 매칭 필요
+이클립스 : 20.03 이후 버전
+이클립스 설치폴더의 초기화파일 eclipse.ini의 속성값을 올바른 속성값으로 설정
+	-jdk버전확인
+	주의사항 : openJDK는 이클립스 업데이트 진행 필요
+
+1. openJDK + 이클립스 
+11, 15, 16, 17 버전
+
+2. oracleJDK + 이클립스
+ 11버전
+
+
+com.mycompany.mypp*
+Proj_Spring_Basic
+
+3단계 이상의 패키지 설정 > pack.spring.basic - cancel
+
+프젝 프로퍼티스-
+Project Facets- 다이나믹웹모듈 - 4.0지정
+
+[빌드도구(Build Tool)]
+1. Ant(앤트)
+2. Maven(메이븐)
+3. Gradle(그레이블)
+
+프젝
+1차 - 11/24~12/2 모델1자료를 spring으로 마이그레이션
+2차 - 12/5~12/16 제작된 프젝을 spring boot로 마이그레이션
+3차 - 모바일 하이브리드앱 제작
+SDK설치, XML/Java 화면구성
+4대 컴퍼넌트 객체 기타관련내용
+=> WebView(2차 프젝의 mvc패턴에서 view를 모바일로 표현할수있는 반흥형 웹으로 제작한 파일을 출력함)
+
+12/29~30 프젝ppt
+
+
+MySQL
+설치확인
+cmd
+mysql -u root -p;
+
+기본 admin계정이 root임.
+
+[jdbc 연결]
+드라이버 설치(ojdbc8.jar)
+ 자바 프로그램에게, 연결해서 사용할 데이터베이스 프로그램의 사
+용방법을 알려주는 것
+ C:\app\Administrator\product\18.0.0\dbhomeXE\jdbc\li
+b\ojdbc8.jar 를 복사하여
+c:\java\jdk1.8.0_65\jre\lib\ext 에 붙여넣기
+jdbc 환경변수 셋팅
+classpath에 추가
+ %classpath%;.;C:\java\jdk1.8.0_65\jre\lib\ext\
+ojdbc8.jar;
+ 이클립스 사용시
+ Build Path - 라이브러리에 ojdbc8.jar 추가
+
+
+//필드(클래스의 변수)
+//지역변수(메서드의 변수)
