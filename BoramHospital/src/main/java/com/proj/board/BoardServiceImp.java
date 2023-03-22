@@ -78,8 +78,8 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public int maxDepth(int ref) {
-		return boardDao.maxDepth(ref);
+	public int maxPos(HashMap<String, Object> map) {
+		return boardDao.maxPos(map);
 	}
 
 	@Override
@@ -110,6 +110,16 @@ public class BoardServiceImp implements BoardService{
 	@Override		//답변글이있는 게시글 삭제처리(update)
 	public int delBoard(String num) {
 		return boardDao.delBoard(num);
+	}
+
+	@Override
+	public int posUpdate(HashMap<String, Object> map) {
+		return boardDao.posUpdate(map);
+	}
+
+	@Override
+	public int checkPos(HashMap<String, Object> map) {
+		return boardDao.checkPos(map);
 	}
 
 }

@@ -54,9 +54,14 @@ public class BoardDAO {
 		return sql.update("member.updateReply", dto);
 	}
 	
-	//최대Depth구하기
-	public int maxDepth(int ref) {
-		return sql.selectOne("member.maxDepth", ref);
+	//최대pos구하기
+	public int maxPos(HashMap<String, Object> map) {
+		return sql.selectOne("member.maxPos", map);
+	}
+	
+	//depth와 ref가 동일한 게시물 개수 체크
+	public int checkPos(HashMap<String, Object> map) {
+		return sql.selectOne("member.checkPos", map);
 	}
 	
 	//게시물 수정
@@ -107,5 +112,10 @@ public class BoardDAO {
 	//답변이 있는 게시물 삭제 처리
 	public int delBoard(String num) {
 		return sql.delete("member.delBoard", num);
+	}
+	
+	//pos업데이트
+	public int posUpdate(HashMap<String, Object> map) {
+		return sql.update("member.posUpdate", map);
 	}
 }

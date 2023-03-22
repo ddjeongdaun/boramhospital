@@ -18,7 +18,8 @@ public interface BoardService {
 	int insertReply(BoardDTO dto);
 	int maxNum();
 	int updateReply(BoardDTO dto);
-	int maxDepth(int ref);
+	int maxPos(HashMap<String, Object> map);
+	int checkPos(HashMap<String, Object> map);
 	
 	List<Map<String, Object>> search(Criteria cri);
 	int totalSearch(Criteria cri);
@@ -27,4 +28,5 @@ public interface BoardService {
 	int checkBoard2(String num);
 	int checkReboard(HashMap<String, Object> map);
 	int delBoard(String num);
+	int posUpdate(HashMap<String, Object> map);
 }

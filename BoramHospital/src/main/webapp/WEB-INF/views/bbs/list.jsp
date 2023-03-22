@@ -95,13 +95,13 @@
 						</c:if>
 						
 							<!-- 제목/답변글처리 -->
-							<c:if test="${boardList.depth eq 1 }">
+							<c:if test="${boardList.pos eq 1 }">
 								<img src="/resources/images/replyImg.png">
 							</c:if>
-							<c:if test="${boardList.depth eq 2 }">
+							<c:if test="${boardList.pos eq 2 }">
 								&nbsp; <img src="/resources/images/replyImg.png">
 							</c:if>
-							<c:if test="${boardList.depth eq 3 }">
+							<c:if test="${boardList.pos eq 3 }">
 								&nbsp;&nbsp; <img src="/resources/images/replyImg.png">
 							</c:if>
 						${boardList.subject }</a></td>

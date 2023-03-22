@@ -181,9 +181,11 @@ function fnJoinSbm() {
    		let uPw_Re = $("#uPw_Re").val().trim();	
    		let uName = $("#uName").val().trim();
    		$("#uName").val(uName);
+   		
    		let uEmail_01 = $("#uEmail_01").val().trim();
    		let uEmail_02 = $("#uEmail_02").val().trim();
    		$("#uEmail").val(uEmail_01+"@"+uEmail_02);
+   		
    		let uBirthday = $("#uBirthday").val().trim();
    		let idCheckResult = $("#idCheckResult").val().trim();
    		
@@ -291,17 +293,8 @@ function fnJoinSbm() {
 										<option>naver.com</option>
 										<option>daum.net</option>
 								</select>
-
-									<button type="button" id="emailAuthBtn" class="frmBtn">인증코드받기</button>
-
-									<!--  이메일 인증 영역 시작 : Authentication Code 인증코드-->
-									<div id="emailAuthArea">
-										<span>인증코드 입력</span> <input type="text" id="emailAuth"
-											size="25">
-										<button type="button" class="frmBtn">인증하기</button>
-									</div> <!-- div#emailAuthArea --> <input type="hidden" name="uEmail"
-									id="uEmail"></td>
 								<td>&nbsp;</td>
+							<input type="hidden" name="uEmail" id="uEmail">
 							</tr>
 							<tr>
 								<td>성별</td>

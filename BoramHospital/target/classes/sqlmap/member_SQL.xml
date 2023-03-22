@@ -162,10 +162,17 @@
 	]]>
 </update>
 
-<select id="maxDepth" parameterType="int" resultType="int">
+<select id="maxPos" parameterType="hashMap" resultType="int">
 	<![CDATA[
 		select max(pos) from tblBoard
-		where ref=#{ref}
+		where ref=#{ref} and depth=#{depth}
+	]]>
+</select>
+
+<select id="checkPos" parameterType="hashMap" resultType="int">
+	<![CDATA[
+		select count(*) from tblBoard
+		where ref=#{ref} and depth=#{depth}
 	]]>
 </select>
 
@@ -222,8 +229,16 @@
 	<![CDATA[
 		update tblBoard 
 		set subject="삭제된 게시물입니다.", content="삭제된 게시물입니다.", uName=" ",
-		fileName=" ", checkDel = true
+		fileName=" "
 		where num= #{num}
+	]]>
+</update>
+
+<update id="posUpdate" parameterType="hashMap">
+	<![CDATA[
+		update tblboard
+		set pos=pos+1
+		where ref=#{ref} and pos>2
 	]]>
 </update>
 

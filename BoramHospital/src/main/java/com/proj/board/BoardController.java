@@ -110,11 +110,12 @@ public class BoardController {
 		//로그인 여부 / 게시글 작성자 확인
 		String uId_Session=(String)session.getAttribute("uId_Session");
 
-
+		//메뉴처리
+		mav.addObject("boardParam", true);
+		
 		BoardDTO dto=service.selectBoard(num);
 		mav.addObject("dto", dto);
 		mav.setViewName("/bbs/read");
-
 
 		boolean result=false;
 		boolean adminResult=false;
@@ -302,8 +303,8 @@ public class BoardController {
 
 	//답변 등록
 	@RequestMapping(value = "/bbs/replyProc")
-	public ModelAndView replyProc(HttpSession session,
-			@RequestParam int oriPos, int oriRef, int oriDepth, @RequestParam String subject, 
+	public ModelAndView replyProc(HttpSession session, @RequestParam int oriRef, int oriPos, int oriDepth,
+			@RequestParam String subject, 
 			@RequestParam(required = false) String content) {
 
 		String uId_Session=(String)session.getAttribute("uId_Session");
@@ -318,18 +319,34 @@ public class BoardController {
 			BoardDTO dto = new BoardDTO();
 
 			//답변처리
-			dto.setRef(oriRef);
-			dto.setDepth(oriPos+1);
-
-			//ref가 같은 게시물의 depth최대값 구하여 새 게시물 ref에 set
-			int maxDepth=service.maxDepth(oriRef);
-			dto.setPos(maxDepth+1);
-
+			dto.setRef(oriRef);		//그룹번호설정
+			dto.setDepth(oriDepth+1);	//깊이
+			
+			//만약 depth가 같은 게시물이 있다면 pos max값을 구해서 +1
+			HashMap<String, Object> map1=new HashMap<String, Object>();
+			map1.put("ref", oriRef);
+			map1.put("depth", oriDepth+1);
+			
+			int posCheck=service.checkPos(map1);
+			if(posCheck>0) {
+				int maxPos=service.maxPos(map1);
+				dto.setPos(maxPos+1);
+			}else {
+				dto.setPos(oriPos+1);
+			}
+			
 			//게시물 정보 set
 			dto.setuId(uId_Session);
 			dto.setuName(uName);
 			dto.setSubject(subject);
 			dto.setContent(content);
+
+			//정렬을 위해 ref가 같고, pos가 같거나 많은 게시물은 pos+1해준다.
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("ref", oriRef);
+			map.put("pos", oriPos+1);
+			int updateResult=service.posUpdate(map);
+			logger.debug("updateResult=",updateResult);
 
 			int cnt=service.insertReply(dto);
 

@@ -46,6 +46,8 @@ String nowPage = request.getParameter("nowPage");
 					<table id="replyTbl">
 					<input type="hidden" id="ref" name="oriRef" value="${OriginalBoard.ref }">
 					<input type="hidden" id="pos" name="oriPos" value="${OriginalBoard.pos }">
+					pos=
+					<input type="text" value="${OriginalBoard.pos }">
 					<input type="hidden" id="depth" name="oriDepth" value="${OriginalBoard.depth }">
 					<input type="hidden" id="vo" value="${vo }">
 						<tbody id="replyTblBody">
