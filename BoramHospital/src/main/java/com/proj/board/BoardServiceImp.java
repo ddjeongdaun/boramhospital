@@ -122,4 +122,9 @@ public class BoardServiceImp implements BoardService{
 		return boardDao.checkPos(map);
 	}
 
+	@Override
+	public int countPos(HashMap<String, Object> map) {
+		return boardDao.countPos(map);
+	}
+
 }

@@ -234,11 +234,18 @@
 	]]>
 </update>
 
+<select id="countPos" parameterType="hashMap" resultType="int">
+	<![CDATA[
+		select count(*) from tblBoard
+		where ref=#{ref} and pos>=0;
+	]]>
+</select>
+
 <update id="posUpdate" parameterType="hashMap">
 	<![CDATA[
 		update tblboard
 		set pos=pos+1
-		where ref=#{ref} and pos>2
+		where ref=#{ref} and pos>=#{pos}
 	]]>
 </update>
 

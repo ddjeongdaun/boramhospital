@@ -118,4 +118,9 @@ public class BoardDAO {
 	public int posUpdate(HashMap<String, Object> map) {
 		return sql.update("member.posUpdate", map);
 	}
+	
+	//같은 pos 게시물 개수 체크
+	public int countPos(HashMap<String, Object> map) {
+		return sql.selectOne("member.countPos",map);
+	}
 }

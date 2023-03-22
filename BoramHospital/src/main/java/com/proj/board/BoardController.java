@@ -311,28 +311,50 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 
 		String msg="", url="";
-		if(loginCheck(uId_Session)) {
-
+		if(loginCheck(uId_Session)) {			//로그인체크
 			MemberVO vo=memberService.member_select(uId_Session);
 			String uName=vo.getuName();
 
 			BoardDTO dto = new BoardDTO();
-
-			//답변처리
 			dto.setRef(oriRef);		//그룹번호설정
 			dto.setDepth(oriDepth+1);	//깊이
 			
-			//만약 depth가 같은 게시물이 있다면 pos max값을 구해서 +1
-			HashMap<String, Object> map1=new HashMap<String, Object>();
-			map1.put("ref", oriRef);
-			map1.put("depth", oriDepth+1);
-			
-			int posCheck=service.checkPos(map1);
-			if(posCheck>0) {
-				int maxPos=service.maxPos(map1);
-				dto.setPos(maxPos+1);
+			//최초원본글의 답변글일 경우
+			if(oriPos==0 || oriDepth==0) {
+				
+				//그룹이 같고, depth가 같은 게시물이 있다면
+				HashMap<String, Object> map=new HashMap<String, Object>();
+				map.put("ref", oriRef);
+				map.put("depth", oriDepth+1);
+				
+				int posCheck=service.checkPos(map);
+				
+				logger.debug("ref와 depth가 같은 게시물 수 : ",posCheck);
+				
+				//pos max값을 구해서 +1
+				if(posCheck>0) {
+					int maxPos=service.maxPos(map);
+					dto.setPos(maxPos+1);
+				//depth가 같은 게시물이 없다면 그대로 +1처리
+				}else {
+					dto.setPos(oriPos+1);
+				}
+
+			//답변글의 답변글인 경우
 			}else {
-				dto.setPos(oriPos+1);
+				//해당조건 게시물 찾기위한 map생성
+				HashMap<String, Object> map=new HashMap<String, Object>();
+				map.put("ref", oriRef);
+				map.put("pos", oriPos+1);
+
+				//정렬을 위해 그룹번호가같고, pos가 같거나 많은 게시물이 있을 시, pos+1해준다.
+				int countPos=service.countPos(map);
+				if(countPos>0) {
+					int updateResult=service.posUpdate(map);
+					logger.debug("pos가 업데이트 된 게시물=",updateResult);
+					dto.setPos(oriPos+1);
+				}
+				
 			}
 			
 			//게시물 정보 set
@@ -340,14 +362,7 @@ public class BoardController {
 			dto.setuName(uName);
 			dto.setSubject(subject);
 			dto.setContent(content);
-
-			//정렬을 위해 ref가 같고, pos가 같거나 많은 게시물은 pos+1해준다.
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("ref", oriRef);
-			map.put("pos", oriPos+1);
-			int updateResult=service.posUpdate(map);
-			logger.debug("updateResult=",updateResult);
-
+			
 			int cnt=service.insertReply(dto);
 
 			if(cnt>0){

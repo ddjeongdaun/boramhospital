@@ -20,6 +20,7 @@ public interface BoardService {
 	int updateReply(BoardDTO dto);
 	int maxPos(HashMap<String, Object> map);
 	int checkPos(HashMap<String, Object> map);
+	int countPos(HashMap<String, Object> map);
 	
 	List<Map<String, Object>> search(Criteria cri);
 	int totalSearch(Criteria cri);
