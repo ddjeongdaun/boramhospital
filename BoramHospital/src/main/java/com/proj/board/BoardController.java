@@ -319,11 +319,12 @@ public class BoardController {
 			dto.setRef(oriRef);		//그룹번호설정
 			dto.setDepth(oriDepth+1);	//깊이
 			
+			HashMap<String, Object> map=new HashMap<String, Object>();
+
 			//최초원본글의 답변글일 경우
 			if(oriPos==0 || oriDepth==0) {
 				
 				//그룹이 같고, depth가 같은 게시물이 있다면
-				HashMap<String, Object> map=new HashMap<String, Object>();
 				map.put("ref", oriRef);
 				map.put("depth", oriDepth+1);
 				
@@ -334,7 +335,7 @@ public class BoardController {
 				//pos max값을 구해서 +1
 				if(posCheck>0) {
 					int maxPos=service.maxPos(map);
-					dto.setPos(maxPos+1);
+					dto.setPos(maxPos);
 				//depth가 같은 게시물이 없다면 그대로 +1처리
 				}else {
 					dto.setPos(oriPos+1);
@@ -343,16 +344,29 @@ public class BoardController {
 			//답변글의 답변글인 경우
 			}else {
 				//해당조건 게시물 찾기위한 map생성
-				HashMap<String, Object> map=new HashMap<String, Object>();
 				map.put("ref", oriRef);
 				map.put("pos", oriPos+1);
-
-				//정렬을 위해 그룹번호가같고, pos가 같거나 많은 게시물이 있을 시, pos+1해준다.
-				int countPos=service.countPos(map);
-				if(countPos>0) {
+				map.put("depth", oriDepth+1);
+				
+				//정렬을 위해 그룹번호가 같을때 pos의 max값을 구한다.
+				int maxPos=service.maxPos(map);
+				
+				//pos의 max값이 0이 아닐때 (=답변글의 답변글 중 첫번째 답변글이 아닐때)
+				if(maxPos>1) {
+					dto.setPos(maxPos);
+					
+					//다른 게시물 중 pos+1한 값고 같거나 큰 게시물들의 pos업데이트
+					map.put("pos", maxPos);
 					int updateResult=service.posUpdate(map);
 					logger.debug("pos가 업데이트 된 게시물=",updateResult);
+				
+				//답변글의 답변글 중 첫번째 답변글일때
+				}else {
 					dto.setPos(oriPos+1);
+					
+					//다른 게시물 중 pos+1한 값고 같거나 큰 게시물들의 pos업데이트
+					int updateResult=service.posUpdate(map);
+					logger.debug("pos가 업데이트 된 게시물=",updateResult);
 				}
 				
 			}

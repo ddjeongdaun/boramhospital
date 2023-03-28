@@ -164,7 +164,7 @@
 
 <select id="maxPos" parameterType="hashMap" resultType="int">
 	<![CDATA[
-		select max(pos) from tblBoard
+		select ifnull(max(pos)+1,1) from tblBoard
 		where ref=#{ref} and depth=#{depth}
 	]]>
 </select>
@@ -237,7 +237,7 @@
 <select id="countPos" parameterType="hashMap" resultType="int">
 	<![CDATA[
 		select count(*) from tblBoard
-		where ref=#{ref} and pos>=0;
+		where ref=#{ref} and pos>=#{pos}
 	]]>
 </select>
 
